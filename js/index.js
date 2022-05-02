@@ -4,10 +4,21 @@ function dibujarListado(){
     for (let i = 0; i <items.length; i++) {
         let itemActual= items[i]
         /*
+        
+        
         <li type="disc">Ordenar la pieza de los nenes <button>x</button> <button>C</button> <button>I</button> </li>
+
+
+
+        
+        <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
+        
+        
+        
         */
-        let li=document.createElement("li");
-        li.setAttribute("type","disc");
+        let li=document.createElement("a");
+        li.setAttribute("href","#");
+        li.setAttribute("class","list-group-item list-group-item-action list-group-item-info");
         let bx=document.createElement("button");
         let bc=document.createElement("button");
         let bi=document.createElement("button");
@@ -45,7 +56,11 @@ function dibujarListado(){
 } 
 function agregarTarea (){
     let texto=document.getElementById("cajaTexto");
+    if (texto.value=="") {
+        return false        
+    }
     items.push({nombreTarea: texto.value,estado: null})
+    texto.value= ""
     dibujarListado()
 }
 function borrarItem(indice){
@@ -83,3 +98,5 @@ var boton=document.getElementById("btn_agregar");
 boton.addEventListener("click",agregarTarea)
 
 dibujarListado()
+
+
