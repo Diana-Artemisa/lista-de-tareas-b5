@@ -1,8 +1,8 @@
-function dibujarListado(){
-    let ul=document.getElementById("l_tareas");
-    ul.innerHTML=""
-    for (let i = 0; i <items.length; i++) {
-        let itemActual= items[i]
+function dibujarListado() {
+    let ul = document.getElementById("l_tareas");
+    ul.innerHTML = ""
+    for (let i = 0; i < items.length; i++) {
+        let itemActual = items[i]
         /*
         
         
@@ -11,91 +11,110 @@ function dibujarListado(){
 
 
         
-        <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
         
-        
-        
+        <a href="#" class="list-group-item list-group-item-action list-group-item-info">
+        tarea <button class="pepe pepito pepote">X</button>
+        </a>
+
+        <a href="#" class="list-group-item list-group-item-action list-group-item-info">
+        <div>tarea</div> <button class="pepe pepito pepote">X</button>
+        </a>
         */
-        let li=document.createElement("a");
-        li.setAttribute("href","#");
-        li.setAttribute("class","list-group-item list-group-item-action list-group-item-info");
-        let bx=document.createElement("button");
-        let bc=document.createElement("button");
-        let bi=document.createElement("button");
-        let txt_li=document.createTextNode(itemActual.nombreTarea);
-        let txt_bx=document.createTextNode("x");
-        let txt_bc=document.createTextNode("c");
-        let txt_bi=document.createTextNode("i");
+        let li = document.createElement("a");
+        li.setAttribute("href", "#");
+        li.setAttribute("class", "list-group-item list-group-item-action d-flex justify-content-between align-items-center");
+        let bx = document.createElement("button");
+        bx.setAttribute("class", "btn btn-outline-dark bg-success");
+        let div = document.createElement("div");
+        div.setAttribute("style", "width:91%");
+        let txt_li = document.createTextNode(itemActual.nombreTarea);
+        div.appendChild(txt_li)
+        let txt_bx = document.createTextNode("x");
+
         bx.appendChild(txt_bx);
-        bx.addEventListener("click",function(){
+        bx.addEventListener("click", function () {
             borrarItem(i);
         })
-        bc.appendChild(txt_bc);
+
         if (itemActual.estado == "C") {
-            bc.setAttribute("style","background-color:green");
+            li.classList.add("list-group-item-success")
+            div.addEventListener("click", function () {
+                incompletItem(i);
+            })
+
         }
         if (itemActual.estado == "I") {
-            bi.setAttribute("style","background-color:red");
-        }
-        bc.addEventListener("click",function(){
-            completItem(i);
-        })
-        bi.appendChild(txt_bi);
-        bi.addEventListener("click",function(){
-            incompletItem(i);
-        })
+            li.classList.add("list-group-item-danger")
+            div.addEventListener("click", function () {
+                incompletItem(i);
+            })
 
-        li.appendChild(txt_li);
+        }
+        if (itemActual.estado == null) {
+            li.classList.add("list-group-item-info")
+            div.addEventListener("click", function () {
+                completItem(i);
+            })
+        }
+
+        li.appendChild(div);
         li.appendChild(bx);
-        li.appendChild(bc);
-        li.appendChild(bi);
         ul.appendChild(li);
 
-        console.log(`${i} nombreTarea:${itemActual.nombreTarea}, estado:${itemActual.estado}`)
-    }    
-} 
-function agregarTarea (){
-    let texto=document.getElementById("cajaTexto");
-    if (texto.value=="") {
-        return false        
     }
-    items.push({nombreTarea: texto.value,estado: null})
-    texto.value= ""
+}
+function agregarTarea() {
+    let texto = document.getElementById("cajaTexto");
+    if (texto.value == "") {
+        return false
+    }
+    items.push(
+
+        {
+            nombreTarea: texto.value,
+            estado: null,
+            fecha: ""
+        }
+
+    )
+    texto.value = ""
     dibujarListado()
 }
-function borrarItem(indice){
-   items.splice(indice, 1);
-   dibujarListado()
+
+function borrarItem(indice) {
+    console.log("borraritem")
+    items.splice(indice, 1);
+    dibujarListado()
 }
-function completItem(idx){
-    if (items[idx].estado == "C")
-    {
+function completItem(idx) {
+    console.log("completandoitem")
+    if (items[idx].estado == "C") {
         items[idx].estado = null;
-    }else{
+    } else {
         items[idx].estado = "C"
     }
     dibujarListado()
 }
-function incompletItem(idx){
-    if (items[idx].estado == "I")
-    {
+function incompletItem(idx) {
+    console.log("incompletitem")
+    if (items[idx].estado == "I") {
         items[idx].estado = null;
-    }else{
+    } else {
         items[idx].estado = "I"
     }
     dibujarListado()
 }
 
-var items= []
+var items = []
 
-let texto=document.getElementById("cajaTexto");
-texto.addEventListener("keypress",function(e) {
-    if (e.code== "Enter") {
+let texto = document.getElementById("cajaTexto");
+texto.addEventListener("keypress", function (e) {
+    if (e.code == "Enter") {
         agregarTarea()
     }
 })
-var boton=document.getElementById("btn_agregar");
-boton.addEventListener("click",agregarTarea)
+var boton = document.getElementById("btn_agregar");
+boton.addEventListener("click", agregarTarea)
 
 dibujarListado()
 
